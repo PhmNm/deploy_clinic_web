@@ -79,7 +79,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'clinic_web.wsgi.application'
+# WSGI_APPLICATION = 'clinic_web.wsgi.application'
+WSGI_APPLICATION = 'clinic_web.wsgi.app'
+
 
 
 # Database
