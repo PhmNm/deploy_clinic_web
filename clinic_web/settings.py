@@ -137,12 +137,12 @@ es_formats.DATE_INPUT_FORMATS = ["%d/%m/%Y"]
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 STATIC_ROOT = BASE_DIR / 'web_core/staticfies'
 
-STATIC_URL = 'static/'
+STATIC_URL = 'staticfies/'
 
 MEDIA_URL = 'images/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'web_core/static/',
+    BASE_DIR / 'web_core/staticfies/',
 ]
 
 MEDIA_ROOT = BASE_DIR / 'web_core/static/images/'
