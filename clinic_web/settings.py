@@ -142,7 +142,7 @@ STATIC_URL = 'staticfies/'
 MEDIA_URL = 'images/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'web_core/staticfies/',
+    BASE_DIR / 'web_core/static/',
 ]
 
 MEDIA_ROOT = BASE_DIR / 'web_core/static/images/'
