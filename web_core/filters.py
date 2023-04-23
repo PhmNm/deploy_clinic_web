@@ -25,8 +25,8 @@ class baocao_filter(Form):
         error_messages={'invalid': 'Yêu cầu nhập đúng định dạng'},
     )
 
-class LichSuKhamFilter(FilterSet):
-    ID = CharFilter(field_name="id_benhnhan",lookup_expr='exact', strip=False)
-    class Meta:
-        model = PHIEUKHAM
-        fields = ''
+# class LichSuKhamFilter(FilterSet):
+#     ID = CharFilter(field_name="id_benhnhan",lookup_expr='exact', strip=False)
+#     class Meta:
+#         model = PHIEUKHAM
+#         fields = ''
