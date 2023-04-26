@@ -41,6 +41,19 @@
         color: #ffff;
         background-color: #399;
     }
+
+    .btn.add-btn {
+        font-weight: bold;
+        background-color: #399;
+        border-color: #399;
+        border-radius: 6px;
+        border-width: 1px;
+        color: #fff;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
     .btn.back-btn {
         font-weight: bold;
         background-color: white;
@@ -64,77 +77,76 @@
     <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Tiêu đề</th>
+            <th class="mid-content">Tiêu đề</th>
             <td class="large-content">{{po.ma_PR.ten_PR}}</td>
             <th class="small-content"></th>
             <th class="small-content"></th>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Tên hàng hoá</th>
-            <td class="small-content">{{pr_hh.ma_hang_hoa.ten_hang_hoa}}</td>
-            <th class="small-content">Số lượng</th>
+            <th class="mid-content">Tên hàng hoá</th>
+            <td class="mid-content">{{pr_hh.ma_hang_hoa.ten_hang_hoa}}</td>
+            <th class="mid-content">Số lượng yêu cầu</th>
             <td class="large-content">{{pr_hh.so_luong}}</td>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Yêu cầu hàng hoá</th>
+            <th class="mid-content">Yêu cầu hàng hoá</th>
             <td class="mid-content">{{pr_hh.yeu_cau}}</td>
             <th class="mid-content"></th>
             <th class="mid-content"></th>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Nhà bán hàng</th>
+            <th class="mid-content">Nhà bán hàng</th>
             <td class="mid-content">{{po.ma_ncc.ten_doanh_nghiep}}</td>
             <th class="mid-content"></th>
             <th class="mid-content"></th>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Ngày cần hàng</th>
+            <th class="mid-content">Ngày cần hàng</th>
             <td class="mid-content">{{pr_hh.ngay_can_hang|date:"d/m/Y"}}</td>
-            <th class="mid-content"></th>
-            <th class="mid-content"></th>
+            <th class="mid-content">Số lượng đặt</th>
+            <td class="mid-content">{{po.so_luong}}</td>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Mã PR</th>
+            <th class="mid-content">Mã PR</th>
             <td class="small-content">{{po.ma_PR.ma_PR}}</td>
             <th class="small-content">Mã PO</th>
             <td class="large-content">{{po.ma_PO}}</td>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Nhân viên thu mua</th>
+            <th class="mid-content">Nhân viên thu mua</th>
             <td class="mid-content">{{po.ma_nhan_vien_tao.ho_ten}}</td>
-            <th class="mid-content"></th>
-            <th class="mid-content"></th>
+            <th class="mid-content">Quản lí duyệt</th>
+            <td class="mid-content">{{po.ma_quan_ly_duyet.ho_ten}}</td>
         </tr>
-    </table>
-    <table class="table table-sm po">
         <tr>
             <th class="mid-content"></th>
-            <th class="small-content">Trạng thái đơn hàng</th>
+            <th class="mid-content">Trạng thái đơn hàng</th>
             <td class="small-content">{{po.trang_thai}}</td>
             <th class="small-content">Ngày đặt hàng</th>
             <td class="large-content">{{po.ngay_tao|date:"d/m/Y"}}</td>
         </tr>
+        <tr>
+            <th class="mid-content"></th>
+            <th class="mid-content">Phê duyệt</th>
+            <td class="mid-content">
+                <input type="checkbox" class="pheduyet-checkbox" id="inline" {% if po.ma_quan_ly_duyet %} checked="true" {% endif %} disabled="disabled">
+            </td>
+            <th class="mid-content"></th>
+            <th class="mid-content"></th>
+        </tr>
     </table>
 </div>
 <div class="form-btn">
-    <a class='btn back-btn' href="{% url 'quanli_dspo' %}">Trở lại</a>
+    {% load index %}
+    {% if request.user|first_group_name == 'quanly' and not po.ma_quan_ly_duyet %}
+    <a class="btn add-btn" href="{% url 'quanli_duyet_po' po.ma_PO %}">Phê duyệt</a>
+    {% endif %}
+    <a class="btn back-btn" href="{% url 'quanli_dspo' %}">Trở lại</a>
 </div>
 {% endblock %}

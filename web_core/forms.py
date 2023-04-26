@@ -1,4 +1,5 @@
-from django.forms import ModelForm, DateInput, ValidationError, DateField, TextInput
+from django.forms import ModelForm, ValidationError, DateField
+from django.forms import DateInput, TextInput
 from .models import *
 from django.forms.widgets import DateInput
 
@@ -22,6 +23,26 @@ class PR_form(ModelForm):
         self.fields["ma_PR"].widget.attrs["readonly"] = True
         self.fields["ngay_tao"].widget.attrs["readonly"] = True
 
+class PR_phancong_form(ModelForm):
+    class Meta:
+        model = PR
+        fields = '__all__'
+        exclude = [
+            'trang_thai',
+            'ngay_cap_nhat',
+            'ngay_tao,'
+        ]
+        widgets = {
+            'ma_nhan_vien_tao': TextInput(
+                attrs={'readonly': True}
+            )
+        }
+    def __init__(self, *args, **kwargs):
+        super(PR_phancong_form,self).__init__(*args, **kwargs)
+        self.fields["ma_PR"].widget.attrs["readonly"] = True
+        self.fields["ten_PR"].widget.attrs["readonly"] = True
+        self.fields["ma_nhan_vien_phu_trach"].queryset = NHANVIEN.objects.filter(phong_ban='Thu mua', chuc_vu='Nhân viên')
+
 class PR_HH_form(ModelForm):
     class Meta:
         model = PR_HH
@@ -40,6 +61,70 @@ class PR_HH_form(ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["yeu_cau"].required = False
 
+class PO_form(ModelForm):
+    class Meta:
+        model = PO
+        fields = '__all__'
+        exclude = ['ngay_cap_nhat','ngay_tao','trang_thai','ma_quan_ly_duyet']
+        widgets = {
+            'ma_nhan_vien_tao': TextInput(
+                attrs={'readonly': True}
+            ),
+            'ma_PR': TextInput(
+                attrs={'readonly': True}
+            ),
+            'ma_hang_hoa': TextInput(
+                attrs={'readonly': True}
+            )
+        }
+    def __init__(self, ma_NV, ma_PR, ma_HH, *args, **kwargs):
+        super(PO_form,self).__init__(*args, **kwargs)
+        self.fields['ma_PO'].widget.attrs["readonly"] = True
+        self.fields['ma_nhan_vien_tao'].initial = ma_NV
+        self.fields['ma_PR'].initial = ma_PR
+        self.fields['ma_hang_hoa'].initial = ma_HH
+        self.fields["ma_ncc"].queryset = NCC.objects.filter(ma_hang_hoa=ma_HH)
+        self.fields["ma_hop_dong"].queryset = HOPDONG.objects.filter(ma_hang_hoa = ma_HH)
+        
+class NCC_form(ModelForm):
+    class Meta:
+        model = NCC
+        fields = '__all__'
+        exclude = ['ngay_cap_nhat','ngay_tao']
+        widgets = {
+            'ma_nhan_vien_tao': TextInput(
+                attrs={'readonly': True}
+            )
+        }
+    def __init__(self, ma_NV, *args, **kwargs):
+        super(NCC_form,self).__init__(*args, **kwargs)
+        self.fields['ma_nhan_vien_tao'].initial = ma_NV
+        self.fields["ma_NCC"].widget.attrs["readonly"] = True
+
+class HOPDONG_form(ModelForm):
+    class Meta:
+        model = HOPDONG
+        fields = '__all__'
+        exclude = ['ngay_cap_nhat','ngay_tao','ma_quan_ly_duyet']
+        widgets = {
+            'ma_nhan_vien_tao': TextInput(
+                attrs={'readonly': True}
+            ),
+            'ngay_hieu_luc': DateInput(
+            attrs={'type': 'date'},
+            format="%Y-%m-%d"
+            ),
+            'ngay_het_han': DateInput(
+            attrs={'type': 'date'},
+            format="%Y-%m-%d"
+            ),
+        }
+
+    def __init__(self, ma_NV, *args, **kwargs):
+        super(HOPDONG_form,self).__init__(*args, **kwargs)
+        self.fields['ma_nhan_vien_tao'].initial = ma_NV
+        self.fields["ma_HD"].widget.attrs["readonly"] = True
+        
 # class benhnhan_form(ModelForm):
 #     ngay_sinh = DateField(
 #         label='Ngày sinh',

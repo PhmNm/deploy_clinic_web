@@ -6,7 +6,7 @@
         bottom: 0;
         padding: 0;
         z-index: 1;
-        width: 240px;
+        width: 253px;
         background: #fff;
         border-right: 1px solid #399;
         flex-flow: column nowrap;
@@ -26,6 +26,7 @@
         height: 88px;
         line-height: 88px;
         border-radius: 10px;
+        width: 240px;
     }
 
     .my-sidebar-item:hover:not(.my-sidebar-active) {
@@ -48,11 +49,18 @@
     {% with request.resolver_match.url_name as url_name %}
     <div class="navbar-nav my-sidebar-nav">
         <a class="nav-item nav-link my-sidebar-item {% if 'pr' in url_name %}my-sidebar-active{% endif %}"
-            href="{% url 'quanli_dspr' %}">Danh sách PR</a>
+            href="{% url 'quanli_dspr' %}">Yêu cầu mua hàng</a>
         <a class="nav-item nav-link my-sidebar-item {% if 'po' in url_name %}my-sidebar-active{% endif %}"
-            href="{% url 'quanli_dspo' %}">Danh sách PO</a>
+            href="{% url 'quanli_dspo' %}">Đơn hàng</a>
         <a class="nav-item nav-link my-sidebar-item {% if 'hh' in url_name %}my-sidebar-active{% endif %}"
             href="{% url 'quanli_dshh' %}">Danh sách Hàng hoá</a>
+        {% load index %}
+        {% if request.user|first_group_name == 'thumua' or request.user|first_group_name == 'quanly' %}
+        <a class="nav-item nav-link my-sidebar-item {% if 'ncc' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'quanli_dsncc' %}">Nhà cung cấp</a> 
+            <a class="nav-item nav-link my-sidebar-item {% if 'hd' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'quanli_dshd' %}">Hợp đồng</a> 
+        {% endif %}
     </div>
     {% endwith %}
 </nav>

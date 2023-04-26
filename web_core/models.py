@@ -31,7 +31,7 @@ class NHANVIEN(models.Model):
     chuc_vu = models.CharField('Chức vụ', max_length = 50, choices=danh_muc_chuc_vu, null=True)
     
     def __str__(self):
-        line = str(self.user) + ' | ' + self.ma_NV
+        line = str(self.ma_NV) + ' | ' + str(self.ho_ten)
         return line
 
 
@@ -62,7 +62,7 @@ class NCC(models.Model):
     )
     ma_nhan_vien_tao = models.ForeignKey(NHANVIEN, on_delete = models.SET_NULL, verbose_name = 'Mã nhân viên tạo', blank = True, null = True)
     ma_so_thue = models.CharField('Mã số thuế', max_length = 20, null=True)
-    ma_hang_hoa = models.ForeignKey(HANGHOA, on_delete = models.SET_NULL, verbose_name = 'Mã hàng hoá', blank = True, null = True)
+    ma_hang_hoa = models.ManyToManyField(HANGHOA, verbose_name = 'Mã hàng hoá', blank = True)
     ten_doanh_nghiep = models.CharField('Tên doanh nghiệp', max_length = 100, null=True)
     dia_chi = models.CharField('Địa chỉ', max_length = 300, null=True)
     nguoi_lien_he = models.CharField('Người liên hệ', max_length = 100, null=True)
@@ -93,7 +93,7 @@ class HOPDONG(models.Model):
         alphabet="0123456789",
         primary_key=True
     )
-    ma_hang_hoa = models.ManyToManyField(HANGHOA, verbose_name = 'Mã hàng hoá')
+    ma_hang_hoa = models.ManyToManyField(HANGHOA, verbose_name = 'Mã hàng hoá', blank = True)
     ma_nhan_vien_tao = models.ForeignKey(NHANVIEN, on_delete = models.SET_NULL, verbose_name = 'Mã nhân viên tạo', related_name = 'nv_tao_HD', blank = True, null = True)
     ma_quan_ly_duyet = models.ForeignKey(NHANVIEN, on_delete = models.SET_NULL, verbose_name = 'Mã quản lý duyệt', related_name = 'quan_ly_HD', blank = True, null = True)
     ma_ncc = models.ForeignKey(NCC, on_delete = models.SET_NULL, verbose_name = 'Nhà cung cấp', null=True)
@@ -103,15 +103,15 @@ class HOPDONG(models.Model):
     ngay_het_han = models.DateField('Ngày hết hạn', editable=True, null=True)
     file_hop_dong = models.CharField('File hợp động', max_length=500, null=True)
     phu_luc_hop_dong = models.CharField('Phụ lục hợp đồng', max_length=20000, null=True)
-    trang_thai = models.CharField('Trạng thái hợp đồng', max_length=100, choices=danh_muc_trang_thai, null=True)
+    trang_thai = models.CharField('Trạng thái hợp đồng', max_length=100, choices=danh_muc_trang_thai, default='Đang xem xét', null=True)
 
     def __str__(self):
-        line = str(self.ma_HD) + ' | ' + self.ma_ncc
+        line = str(self.ma_HD) + ' | ' + str(self.ma_ncc.ten_doanh_nghiep)
         return line
 
 class PR(models.Model):
     danh_muc_trang_thai = (
-        ('Đang xem xét', 'Đang xem xét'),
+        ('Chờ phân công', 'Chờ phân công'),
         ('Đang thực hiện', 'Đang thực hiện'),
         ('Đã hoàn thành', 'Đã hoàn thành'),
     )
@@ -141,7 +141,7 @@ class PR(models.Model):
 
 class PR_HH(models.Model):
     danh_muc_trang_thai = (
-        ('Đang xem xét', 'Đang xem xét'),
+        ('Chờ phân công', 'Chờ phân công'),
         ('Đang thực hiện', 'Đang thực hiện'),
         ('Đã hoàn thành', 'Đã hoàn thành'),
     )
@@ -151,7 +151,7 @@ class PR_HH(models.Model):
     ngay_can_hang = models.DateField('Ngày cần hàng', editable = True, blank = True, null = True)
     ngay_cap_nhat = models.DateField('Ngày cập nhật', default = datetime.now)
     yeu_cau = models.CharField('Yêu cầu', max_length = 300, blank = True, null = True)
-    trang_thai = models.CharField('Trạng thái PR', max_length = 100, choices=danh_muc_trang_thai, default='Đang xem xét', null=True)
+    trang_thai = models.CharField('Trạng thái PR', max_length = 100, choices=danh_muc_trang_thai, null=True)
     
     def __str__(self):
         line = str(self.ma_PR) + ' | ' + str(self.ma_hang_hoa)
@@ -159,10 +159,10 @@ class PR_HH(models.Model):
     
 class PO(models.Model):
     danh_muc_trang_thai = (
-        ('Đang xem xét', 'Đang xem xét'),
-        ('Đã đặt hàng', 'Đã đặt hàng'),
-        ('Đang giao hàng', 'Đang giao hàng'),
-        ('Đã giao hàng', 'Đã giao hàng'),
+        ('Chờ phê duyệt', 'Chờ phê duyệt'),
+        ('Đang thực hiện', 'Đang thực hiện'),
+        ('Đã nhận hàng', 'Đã nhận hàng'),
+        ('Đã hoàn thành', 'Đã hoàn thành'),
     )
     ma_PO = ShortUUIDField(
         verbose_name='Mã PO',
@@ -180,7 +180,7 @@ class PO(models.Model):
     ma_ncc = models.ForeignKey(NCC, on_delete = models.SET_NULL, verbose_name = 'Mã nhà cung cấp', blank = True, null = True)
     ngay_tao = models.DateTimeField('Ngày tạo', default = datetime.now)
     ngay_cap_nhat = models.DateTimeField('Ngày cập nhật', default = datetime.now)
-    trang_thai = models.CharField('Trạng thái PO', max_length = 100, choices=danh_muc_trang_thai, blank = True, null = True)
+    trang_thai = models.CharField('Trạng thái PO', max_length = 100, choices=danh_muc_trang_thai, default='Đang xem xét', blank = True, null = True)
     ma_quan_ly_duyet = models.ForeignKey(NHANVIEN, on_delete = models.SET_NULL, verbose_name = 'Mã quản lý duyệt', related_name = 'quan_ly', blank = True, null = True)
 
     def __str__(self):
@@ -210,9 +210,7 @@ class NHAPKHO(models.Model):
 class THANHTOAN(models.Model):
     danh_muc_trang_thai = (
         ('Đang chờ thanh toán', 'Đang chờ thanh toán'),
-        ('Đã thanh toán', 'Đã thanh toán'),
         ('Đã thanh toán lần 1', 'Đã thanh toán lần 1'),
-        ('Đã thanh toán lần 2', 'Đã thanh toán lần 2'),
         ('Đã hoàn thành', 'Đã hoàn thành')
     )
     ma_TT = ShortUUIDField(

@@ -41,6 +41,36 @@
         color: #ffff;
         background-color: #399;
     }
+
+    .btn.add-btn {
+        font-weight: bold;
+        background-color: #399;
+        border-color: #399;
+        border-radius: 6px;
+        border-width: 1px;
+        color: #fff;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
+    .btn.back-btn {
+        font-weight: bold;
+        background-color: white;
+        border-color: black;
+        border-radius: 6px;
+        border-width: 1px;
+        color: black;
+        padding: 10px 14px;
+        margin: auto;
+        right: 0;
+    }
+
+    .form-btn {
+        padding-top: 1%;
+        display: flex;
+        justify-content: center;
+    }
 </style>
 <h2 class="table-title" style>CHI TIẾT PR</h2>
 <div class="card card-body">
@@ -85,5 +115,12 @@
         </tr>
         {% endfor %}
     </table>
+</div>
+<div class="form-btn">
+    {% load index %}
+    {% if request.user|first_group_name == 'quanly' %}
+    <a class='btn add-btn' href="{% url 'quanli_phancong_pr' pr.ma_PR %}">Phân công</a>
+    {% endif %}
+    <a class='btn back-btn' href="{% url 'quanli_dspr' %}">Trở lại</a>
 </div>
 {% endblock %}

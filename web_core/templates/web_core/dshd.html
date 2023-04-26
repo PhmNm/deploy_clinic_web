@@ -83,13 +83,13 @@
         list-style-type: none;
     }
 </style>
-<h2 class="table-title" style>DANH SÁCH NHÀ CUNG CẤP</h2>
+<h2 class="table-title" style>DANH SÁCH HỢP ĐỒNG</h2>
 {% load index %}
 {% if request.user|first_group_name != 'quanly' %}
 <div class="row sub">
     <div class="col">
         <div class="btn-text-right">
-            <a class='btn add-btn' href="{% url 'quanli_them_ncc'%}">Thêm Nhà cung cấp</a>
+            <a class='btn add-btn' href="{% url 'quanli_them_hd'%}">Thêm Hợp đồng</a>
         </div>
     </div>
 </div>
@@ -97,23 +97,19 @@
 <div class="card card-body">
     <table class='table table-sm'>
         <tr class="table-head">
-            <th class="small-content">Mã NCC</th>
-            <th class="mid-content">Tên công ty</th>
-            <th class="small-content">Địa chỉ</th>
-            <th class="mid-content">Người liên hệ</th>
-            <th class="small-content">Số điện thoại</th>
-            <th class="small-content">Email</th>
-            <th class="small-content">Ngày cập nhật</th>
+            <th class="small-content">Mã hợp đồng</th>
+            <th class="small-content">Tên công ty </th>
+            <th class="mid-content">Trạng thái</th>
+            <th class="mid-content">Nhân viên phụ trách</th>
+            <th class="mid-content">Ngày cập nhật</th>
         </tr>
-        {% for ncc in dsncc %}
+        {% for hd in dshd %}
         <tr>
-            <td class="small-content"><a href="{% url 'quanli_xem_ncc' ncc.ma_NCC %}">{{ncc.ma_NCC}}</a></td>
-            <td class="mid-content">{{ncc.ten_doanh_nghiep}}</td>
-            <td class="small-content">{{ncc.dia_chi}}</td>
-            <td class="mid-content">{{ncc.nguoi_lien_he}}</td>
-            <td class="small-content">{{ncc.sdt}}</td>
-            <td class="small-content">{{ncc.email}}</td>
-            <td class="small-content">{{ncc.ngay_cap_nhat|date:"d/m/Y"}}</td>
+            <td class="small-content">{{hd.ma_HD}}</td>
+            <td class="small-content">{{hd.ma_ncc.ten_doanh_nghiep}}</td>
+            <td class="mid-content"><a href="{% url 'quanli_xem_hd' hd.ma_HD%}">{{hd.trang_thai}}</a></td>
+            <td class="mid-content">{{hd.ma_nhan_vien_tao.ho_ten}}</td>
+            <td class="mid-content">{{hd.ngay_cap_nhat|date:"d/m/Y"}}</td>
         </tr>
         {% endfor %}
     </table>

@@ -83,7 +83,12 @@
         list-style-type: none;
     }
 </style>
-<h2 class="table-title" style>DANH SÁCH YÊU CẦU MUA HÀNG</h2>
+{% load index %}
+{% if request.user|first_group_name == 'thumua' %}
+<h2 class="table-title" style>YÊU CẦU MUA HÀNG ĐƯỢC PHÂN CÔNG</h2>
+{% else %}
+<h2 class="table-title" style>YÊU CẦU MUA HÀNG CỦA BẠN</h2>
+{% endif %}
 <div class="row sub">
     <div class="col">
         <div class="btn-text-right">

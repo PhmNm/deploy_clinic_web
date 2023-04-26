@@ -23,11 +23,27 @@ urlpatterns = [
     path('ca_nhan/xem_pr/<str:ma_PR>', views.view_pr_canhan, name='canhan_xem_pr'),
     path('ca_nhan/sua_pr/<str:ma_PR>-<str:ma_HH>', views.edit_pr_canhan, name='canhan_sua_pr'),
 
+    path('phancong_pr/<str:ma_PR>', views.phancong_pr, name='quanli_phancong_pr'),
+
     path('dspo/', views.dspo, name='quanli_dspo'),
     path('xem_po/<str:ma_PO>', views.view_po, name='quanli_xem_po'),
-
     path('ca_nhan/dspo/', views.dspo_canhan, name='canhan_dspo'),
     path('ca_nhan/xem_po/<str:ma_PO>', views.view_po_canhan, name='canhan_xem_po'),
+    path('ca_nhan/capnhat_po/<str:ma_PO>', views.update_po_status, name='canhan_capnhat_po'),
+
+    path('them_po/<str:ma_PR>-<str:ma_HH>', views.add_po, name='canhan_them_po'),
+    path('sua_po/<str:ma_PO>', views.edit_po, name='canhan_sua_po'),
+    path('duyet_po/<str:ma_PO>', views.duyet_po, name='quanli_duyet_po'),
+
+    path('dsncc/', views.dsncc, name='quanli_dsncc'),
+    path('them_ncc/', views.add_ncc, name='quanli_them_ncc'),
+    path('xem_ncc/<str:ma_NCC>', view=views.view_ncc, name='quanli_xem_ncc'),
+    path('sua_ncc/<str:ma_NCC>', view=views.edit_ncc, name='quanli_sua_ncc'),
+
+    path('dshd/', views.dshd, name='quanli_dshd'),
+    path('them_hd/', views.add_hd, name='quanli_them_hd'),
+    path('xem_hd/<str:ma_HD>', view=views.view_hd, name='quanli_xem_hd'),
+    path('sua_hd/<str:ma_HD>', view=views.edit_hd, name='quanli_sua_hd'),
     # path('dsbn', views.dsbn, name='quanli_dsbn'),
     # path('sua_bn/<str:id>', views.edit_benhnhan, name='quanli_sua_benhnhan'),
     # path('xoa_bn/<str:id>', views.del_benhnhan, name='quanli_xoa_benhnhan'),

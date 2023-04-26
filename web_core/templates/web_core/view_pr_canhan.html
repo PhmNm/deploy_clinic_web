@@ -73,7 +73,7 @@
 </style>
 <h2 class="table-title" style>CHI TIẾT PR</h2>
 <div class="card card-body">
-    <table class="table table-sm pr">
+    <table class="table table-sm pr-canhan">
         <tr>
             <th class="mid-content">Mã PR</th>
             <td class="mid-content">{{pr.ma_PR}}</td>
@@ -110,8 +110,10 @@
             <td class="small-content">{{line.so_luong}}</td>
             <td class="mid-content">{{line.ngay_can_hang|date:"d/m/Y"}}</td>
             <td class="large-content">{{line.yeu_cau}}</td>
+            {% load index %}
+            {% if request.user|first_group_name != 'thumua' %}
             <td class="mid-content">
-                {% if line.trang_thai == 'Đang xem xét' %}
+                {% if line.trang_thai == 'Chờ phân công' %}
                 <a  href="{% url 'canhan_sua_pr' pr.ma_PR line.ma_hang_hoa.ma_HH %}">
                     {{line.trang_thai}}
                 </a>
@@ -121,6 +123,19 @@
                 </a>
                 {% endif %}
             </td>
+            {% else %}
+            <td class="mid-content">
+                {% if line.trang_thai == 'Chờ phân công' %}
+                <a  href="{% url 'canhan_them_po' pr.ma_PR line.ma_hang_hoa.ma_HH %}">
+                    {{line.trang_thai}}
+                </a>
+                {% else %}
+                <a  href="{% url 'canhan_xem_po' ma_PO %}">
+                    {{line.trang_thai}}
+                </a>
+                {% endif %}
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
