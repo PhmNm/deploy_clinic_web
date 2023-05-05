@@ -8,7 +8,7 @@
     }
 
     .col-md-10 {
-        margin-top: 5px;
+        margin-top: 50px;
     }
 
     .card-body {
@@ -67,59 +67,29 @@
     }
 
     .form-btn {
-        padding-top: 2%;
-        padding-bottom: 2%;
+        padding-top: 1%;
         display: flex;
         justify-content: center;
     }
 </style>
-<h2 class="table-title" style>THÔNG TIN NHÀ CUNG CẤP</h2>
+<h2 class="table-title" style>THÔNG TIN HỢP ĐỒNG</h2>
 <div class="card card-body">
     <table class="table table-sm ncc">
         <tr>
             <th class="small-content"></th>
-            <th class="small-content">Mã NCC</th>
-            <td class="small-content">{{ncc.ma_NCC}}</td>
             <th class="small-content">Tên doanh nghiệp</th>
-            <td class="small-content">{{ncc.ten_doanh_nghiep}}</td>
-        </tr>
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Mã số thuế</th>
-            <td class="small-content">{{ncc.ma_so_thue}}</td>
-            <th class="small-content">Số tài khoản</th>
-            <td class="small-content">{{ncc.stk}}</td>
-
-        </tr>
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Địa chỉ</th>
-            <td class="small-content">{{ncc.dia_chi}}</td>
+            <td class="small-content">{{hd.ma_ncc.ten_doanh_nghiep}}</td>
             <th class="small-content"></th>
             <td class="small-content"></td>
         </tr>
         <tr>
             <th class="small-content"></th>
-            <th class="small-content">Số điện thoại</th>
-            <td class="small-content">{{ncc.sdt}}</td>
-            <th class="small-content">Email</th>
-            <td class="small-content">{{ncc.email}}</td>
-        </tr>
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Giấy phép</th>
-            <td class="small-content">{{ncc.giay_phep}}</td>
-            <th class="small-content"></th>
-            <td class="mid-content"></td>
-        </tr>
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Hàng hoá cung cấp:</th>
+            <th class="small-content">Hàng hoá:</th>
             <td class="small-content"></td>
             <td class="small-content"></td>
             <td class="small-content"></td>
         </tr>
-        {% for hh in ncc.ma_hang_hoa.all %}
+        {% for hh in hd.ma_hang_hoa.all %}
             <tr>
                 <th class="small-content"></th>
                 <th class="small-content"></th>
@@ -130,44 +100,50 @@
         {% endfor %}
         <tr>
             <th class="small-content"></th>
-            <th class="small-content">Hợp đồng:</th>
-            <th class="small-content"></th>
-            <td class="small-content"></td>
-            <td class="small-content"></td>
-        </tr>
-        {% for hd in hopdong %}
-            <tr>
-                <th class="small-content"></th>
-                <th class="small-content"></th>
-                <td class="small-content">{{hd.ma_HD}}</td>
-                <th class="small-content"></th>
-                <td class="small-content"></td>
-            </tr>
-        {% endfor %}
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Năng lực hàng hoá</th>
-            <td class="small-content">{{ncc.nang_luc_hang_hoa}}</td>
-            <td class="small-content"></td>
-            <td class="small-content"></td>
-        </tr>
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Công nợ</th>
-            <td class="small-content">{{ncc.cong_no}}</td>
+            <th class="small-content">Nhân viên phụ trách</th>
+            <td class="small-content">{{hd.ma_nhan_vien_tao.ho_ten}}</td>
             <th class="small-content"></th>
             <td class="small-content"></td>
         </tr>
         <tr>
             <th class="small-content"></th>
-            <th class="small-content">Ngày cập nhật</th>
-            <td class="small-content">{{ncc.ngay_cap_nhat|date:"d/m/Y"}}</td>
-            <th class="small-content">Người tạo</th>
-            <td class="small-content">{{ncc.ma_nhan_vien_tao.ho_ten}}</td>
+            <th class="small-content">Ngày hiệu lực</th>
+            <td class="small-content">{{hd.ngay_hieu_luc|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Ngày hết hạn</th>
+            <td class="small-content">{{hd.ngay_het_han|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Trạng thái hợp đồng</th>
+            <td class="small-content">{{hd.trang_thai}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">File</th>
+            <td class="small-content">{{hd.file_hop_dong}}</td>
+            <th class="small-content">Quản lý duyệt</th>
+            <td class="small-content">{{hd.ma_quanly_duyet.ho_ten}}</td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Phụ lục hợp đồng</th>
+            <td class="small-content">{{hd.phu_luc_hop_dong}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
         </tr>
     </table>
 </div>
 <div class="form-btn">
-    <a class='btn back-btn' href="{% url 'quanli_dsncc' %}">Trở lại</a>
+    <a class="btn edit-btn" href="{% url 'canhan_sua_hd' hd.ma_HD %}">Chỉnh sửa</a>
+    <a class='btn back-btn' href="{% url 'canhan_dshd' %}">Trở lại</a>
 </div>
 {% endblock %}

@@ -42,13 +42,13 @@
         background-color: #399;
     }
 
-    .btn.edit-btn {
+    .btn.add-btn {
         font-weight: bold;
-        background-color: rgb(255, 204, 0);
-        border-color: rgb(255, 204, 0);
+        background-color: #399;
+        border-color: #399;
         border-radius: 6px;
         border-width: 1px;
-        color: black;
+        color: #fff;
         padding: 10px 14px;
         margin: auto;
         right: 0;
@@ -131,7 +131,7 @@
             <th class="small-content">File</th>
             <td class="small-content">{{hd.file_hop_dong}}</td>
             <th class="small-content">Quản lý duyệt</th>
-            <td class="small-content">{{hd.ma_quanly_duyet.ho_ten}}</td>
+            <td class="small-content">{{hd.ma_quan_ly_duyet.ho_ten}}</td>
         </tr>
         <tr>
             <th class="small-content"></th>
@@ -143,7 +143,10 @@
     </table>
 </div>
 <div class="form-btn">
-    <a class="btn edit-btn" href="{% url 'quanli_sua_hd' hd.ma_HD %}">Chỉnh sửa</a>
+    {% load index %}
+    {% if request.user|first_group_name == 'quanly' and not po.ma_quan_ly_duyet %}
+    <a class="btn add-btn" href="{% url 'quanli_duyet_hd' hd.ma_HD %}">Phê duyệt</a>
+    {% endif %}
     <a class='btn back-btn' href="{% url 'quanli_dshd' %}">Trở lại</a>
 </div>
 {% endblock %}

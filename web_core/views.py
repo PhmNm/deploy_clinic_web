@@ -42,13 +42,14 @@ def update_pr_status():
         pr_hhs = PR_HH.objects.filter(ma_PR = pr.ma_PR)
         for pr_hh in pr_hhs:
             po = PO.objects.filter(ma_PR=pr_hh.ma_PR, ma_hang_hoa=pr_hh.ma_hang_hoa)
-            if len(po) == 0:
+            if not pr.ma_nhan_vien_phu_trach:
                 pr_hh.trang_thai = 'Chờ phân công'
             else:
-                if po[0].trang_thai == 'Đã nhận hàng' or po[0].trang_thai =='Đã hoàn thành':
-                    pr_hh.trang_thai = 'Đã hoàn thành'
-                else:
+                if not po:
                     pr_hh.trang_thai = 'Đang thực hiện'
+                elif po[0].trang_thai == 'Đã nhận hàng' or po[0].trang_thai =='Đã hoàn thành':
+                    pr_hh.trang_thai = 'Đã hoàn thành'
+                
             pr_hh.save()
 
         if any(pr_hh.trang_thai == 'Chờ phân công' for pr_hh in pr_hhs):
@@ -348,6 +349,18 @@ def dsncc(request):
 
 @allowed_users(['thumua', 'quanly'])
 @login_required(login_url='login')
+def dsncc_canhan(request):
+    
+    nhanvien = NHANVIEN.objects.get(user=request.user)
+
+    dsncc = NCC.objects.filter(ma_nhan_vien_tao=nhanvien.ma_NV).order_by('-ngay_cap_nhat')
+    # hopdong = HOPDONG.objects.filter(ma_NCC = )
+    context = {'dsncc':dsncc}
+
+    return render(request, 'web_core/dsncc_canhan.html', context)
+
+@allowed_users(['thumua', 'quanly'])
+@login_required(login_url='login')
 def view_ncc(request, ma_NCC):
     if ma_NCC is None:
         return redirect('/dsncc')
@@ -355,6 +368,16 @@ def view_ncc(request, ma_NCC):
     hopdong = HOPDONG.objects.filter(ma_ncc=ma_NCC)
     context = {'ncc':ncc, 'hopdong':hopdong}
     return render(request,'web_core/view_ncc.html', context)
+
+@allowed_users(['thumua', 'quanly'])
+@login_required(login_url='login')
+def view_ncc_canhan(request, ma_NCC):
+    if ma_NCC is None:
+        return redirect('/dsncc')
+    ncc = NCC.objects.get(ma_NCC=ma_NCC)
+    hopdong = HOPDONG.objects.filter(ma_ncc=ma_NCC)
+    context = {'ncc':ncc, 'hopdong':hopdong}
+    return render(request,'web_core/view_ncc_canhan.html', context)
 
 @allowed_users(['thumua', 'quanly'])
 @login_required(login_url='login')
@@ -403,6 +426,17 @@ def dshd(request):
 
 @allowed_users(['thumua', 'quanly'])
 @login_required(login_url='login')
+def dshd_canhan(request):
+    
+    nhanvien = NHANVIEN.objects.get(user=request.user)
+
+    dshd = HOPDONG.objects.filter(ma_nhan_vien_tao=nhanvien.ma_NV).order_by('-ngay_cap_nhat')
+    context = {'dshd':dshd}
+
+    return render(request, 'web_core/dshd_canhan.html', context)
+
+@allowed_users(['thumua', 'quanly'])
+@login_required(login_url='login')
 def view_hd(request, ma_HD):
     if ma_HD is None:
         return redirect('/dshd')
@@ -412,6 +446,15 @@ def view_hd(request, ma_HD):
 
 @allowed_users(['thumua', 'quanly'])
 @login_required(login_url='login')
+def view_hd_canhan(request, ma_HD):
+    if ma_HD is None:
+        return redirect('/dshd')
+    hd = HOPDONG.objects.get(ma_HD=ma_HD)
+    context = {'hd':hd}
+    return render(request,'web_core/view_hopdong_canhan.html', context)
+@allowed_users(['thumua', 'quanly'])
+@login_required(login_url='login')
+
 def add_hd(request):
     user = request.user.username
     if user == 'admin':
@@ -446,6 +489,22 @@ def edit_hd(request, ma_HD):
     context = {'form':form, 'ma_HD':ma_HD}
     return render(request,'web_core/edit_hd.html', context)
 
+
+@allowed_users(['quanly'])
+@login_required(login_url='login')
+def duyet_hd(request, ma_HD):
+    HD = HOPDONG.objects.get(ma_HD=ma_HD)
+    user = request.user.username
+    if user == 'admin':
+        return redirect(f'/xem_po/{ma_HD}')
+    else:
+        nhanvien = NHANVIEN.objects.get(user=request.user)
+    if request.method == 'GET':
+        HD.ma_quan_ly_duyet = nhanvien
+        HD.trang_thai = 'Đã duyệt'
+        HD.ngay_cap_nhat = datetime.now()
+        HD.save()
+    return redirect(f'/xem_hd/{ma_HD}')
 # # @admin_only
 # def edit_benhnhan(request, id):
 #     benhnhan = BENHNHAN.objects.get(id=id)

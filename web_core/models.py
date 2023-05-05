@@ -80,8 +80,8 @@ class NCC(models.Model):
     
 class HOPDONG(models.Model):
     danh_muc_trang_thai = (
-        ('Đang xem xét', 'Đang xem xét'),
-        ('Đã ký', 'Đã ký'),
+        ('Chờ phê duyệt', 'Chờ phê duyệt'),
+        ('Đã duyệt', 'Đã duyệt'),
         ('Đang có hiệu lực', 'Đang có hiệu lực'),
         ('Đã hết hạn', 'Đã hết hạn'),
     )

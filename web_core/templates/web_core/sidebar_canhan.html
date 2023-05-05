@@ -52,6 +52,13 @@
             href="{% url 'canhan_dspr' %}">Yêu cầu mua hàng</a>
         <a class="nav-item nav-link my-sidebar-item {% if 'po' in url_name %}my-sidebar-active{% endif %}"
             href="{% url 'canhan_dspo' %}">Đơn hàng</a>
+        {% load index %}
+        {% if request.user|first_group_name == 'thumua' or request.user|first_group_name == 'quanly' %}
+        <a class="nav-item nav-link my-sidebar-item {% if 'ncc' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'canhan_dsncc' %}">Nhà cung cấp</a> 
+            <a class="nav-item nav-link my-sidebar-item {% if 'hd' in url_name %}my-sidebar-active{% endif %}"
+            href="{% url 'canhan_dshd' %}">Hợp đồng</a> 
+        {% endif %}
     </div>
     {% endwith %}
 </nav>

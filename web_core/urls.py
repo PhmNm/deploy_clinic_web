@@ -38,12 +38,20 @@ urlpatterns = [
     path('dsncc/', views.dsncc, name='quanli_dsncc'),
     path('them_ncc/', views.add_ncc, name='quanli_them_ncc'),
     path('xem_ncc/<str:ma_NCC>', view=views.view_ncc, name='quanli_xem_ncc'),
-    path('sua_ncc/<str:ma_NCC>', view=views.edit_ncc, name='quanli_sua_ncc'),
+
+
+    path('ca_nhan/dsncc/', views.dsncc_canhan, name='canhan_dsncc'),
+    path('ca_nhan/xem_ncc/<str:ma_NCC>', view=views.view_ncc_canhan, name='canhan_xem_ncc'),
+    path('ca_nhan/sua_ncc/<str:ma_NCC>', view=views.edit_ncc, name='canhan_sua_ncc'),
 
     path('dshd/', views.dshd, name='quanli_dshd'),
     path('them_hd/', views.add_hd, name='quanli_them_hd'),
     path('xem_hd/<str:ma_HD>', view=views.view_hd, name='quanli_xem_hd'),
-    path('sua_hd/<str:ma_HD>', view=views.edit_hd, name='quanli_sua_hd'),
+    path('duyet_hd/<str:ma_HD>', views.duyet_hd, name='quanli_duyet_hd'),
+
+    path('ca_nhan/dshd/', views.dshd_canhan, name='canhan_dshd'),
+    path('ca_nhan/xem_hd/<str:ma_HD>', view=views.view_hd_canhan, name='canhan_xem_hd'),
+    path('ca_nhan/sua_hd/<str:ma_HD>', view=views.edit_hd, name='canhan_sua_hd'),
     # path('dsbn', views.dsbn, name='quanli_dsbn'),
     # path('sua_bn/<str:id>', views.edit_benhnhan, name='quanli_sua_benhnhan'),
     # path('xoa_bn/<str:id>', views.del_benhnhan, name='quanli_xoa_benhnhan'),
