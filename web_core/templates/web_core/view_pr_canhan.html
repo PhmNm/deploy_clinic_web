@@ -125,9 +125,9 @@
             </td>
             {% else %}
             <td class="mid-content">
-                {% if line.trang_thai == 'Chờ phân công' %}
+                {% if not ma_PO %}
                 <a  href="{% url 'canhan_them_po' pr.ma_PR line.ma_hang_hoa.ma_HH %}">
-                    {{line.trang_thai}}
+                    Chưa tạo đơn hàng
                 </a>
                 {% else %}
                 <a  href="{% url 'canhan_xem_po' ma_PO %}">

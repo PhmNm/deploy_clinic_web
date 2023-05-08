@@ -289,6 +289,21 @@ def add_po(request, ma_PR, ma_HH):
     context = {'form':form, 'pr_hh':pr_hh}
     return render(request,'web_core/add_po.html', context)
 
+
+@allowed_users(['thumua'])
+@login_required(login_url='login')
+def add_po_2(request):
+    nhanvien = NHANVIEN.objects.get(user=request.user)
+    form = PO_form_2(nhanvien.ma_NV)
+    if request.method == 'POST':
+        form = PO_form_2(nhanvien.ma_NV,request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/ca_nhan/dspo')
+        
+    context = {'form':form}
+    return render(request,'web_core/add_po_2.html', context)
+
 @allowed_users(['thumua'])
 @login_required(login_url='login')
 def edit_po(request, ma_PO):

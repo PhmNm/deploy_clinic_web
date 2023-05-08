@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from shortuuid.django_fields import ShortUUIDField
 from django.core.validators import MaxValueValidator, MinValueValidator
+
 from datetime import datetime
 
 # Create your models here.
@@ -146,7 +147,7 @@ class PR_HH(models.Model):
         ('Đã hoàn thành', 'Đã hoàn thành'),
     )
     ma_PR = models.ForeignKey(PR, on_delete = models.CASCADE, verbose_name = 'Mã PR', blank = True, null = True)
-    ma_hang_hoa = models.ForeignKey(HANGHOA, on_delete=models.SET_NULL, verbose_name = 'Mã hàng hoá', null=True)
+    ma_hang_hoa = models.ForeignKey(HANGHOA, on_delete=models.SET_NULL, verbose_name = 'Mã hàng hoá', null = True)
     so_luong = models.IntegerField('Số lượng', validators = [MinValueValidator(0)], default = 0)
     ngay_can_hang = models.DateField('Ngày cần hàng', editable = True, blank = True, null = True)
     ngay_cap_nhat = models.DateField('Ngày cập nhật', default = datetime.now)

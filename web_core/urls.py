@@ -32,6 +32,7 @@ urlpatterns = [
     path('ca_nhan/capnhat_po/<str:ma_PO>', views.update_po_status, name='canhan_capnhat_po'),
 
     path('them_po/<str:ma_PR>-<str:ma_HH>', views.add_po, name='canhan_them_po'),
+    path('them_po_2/', views.add_po_2, name='canhan_them_po_2'),
     path('sua_po/<str:ma_PO>', views.edit_po, name='canhan_sua_po'),
     path('duyet_po/<str:ma_PO>', views.duyet_po, name='quanli_duyet_po'),
 

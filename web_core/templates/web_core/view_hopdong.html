@@ -107,20 +107,6 @@
         </tr>
         <tr>
             <th class="small-content"></th>
-            <th class="small-content">Ngày hiệu lực</th>
-            <td class="small-content">{{hd.ngay_hieu_luc|date:"d/m/Y"}}</td>
-            <th class="small-content"></th>
-            <td class="small-content"></td>
-        </tr>
-        <tr>
-            <th class="small-content"></th>
-            <th class="small-content">Ngày hết hạn</th>
-            <td class="small-content">{{hd.ngay_het_han|date:"d/m/Y"}}</td>
-            <th class="small-content"></th>
-            <td class="small-content"></td>
-        </tr>
-        <tr>
-            <th class="small-content"></th>
             <th class="small-content">Trạng thái hợp đồng</th>
             <td class="small-content">{{hd.trang_thai}}</td>
             <th class="small-content"></th>
@@ -135,6 +121,20 @@
         </tr>
         <tr>
             <th class="small-content"></th>
+            <th class="small-content">Ngày hiệu lực</th>
+            <td class="small-content">{{hd.ngay_hieu_luc|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
+            <th class="small-content">Ngày hết hạn</th>
+            <td class="small-content">{{hd.ngay_het_han|date:"d/m/Y"}}</td>
+            <th class="small-content"></th>
+            <td class="small-content"></td>
+        </tr>
+        <tr>
+            <th class="small-content"></th>
             <th class="small-content">Phụ lục hợp đồng</th>
             <td class="small-content">{{hd.phu_luc_hop_dong}}</td>
             <th class="small-content"></th>
@@ -144,7 +144,7 @@
 </div>
 <div class="form-btn">
     {% load index %}
-    {% if request.user|first_group_name == 'quanly' and not po.ma_quan_ly_duyet %}
+    {% if request.user|first_group_name == 'quanly' and not hd.ma_quan_ly_duyet %}
     <a class="btn add-btn" href="{% url 'quanli_duyet_hd' hd.ma_HD %}">Phê duyệt</a>
     {% endif %}
     <a class='btn back-btn' href="{% url 'quanli_dshd' %}">Trở lại</a>
