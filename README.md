@@ -15,6 +15,7 @@ Các role user chính:
 - Quản lý thu mua (qlthumua): người chịu trách nhiệm phê duyệt hợp đồng, thông tin đơn hàng trước khi nó được tiến hành và kiểm tra thanh toán cuối cùng, tạo và xuất báo cáo.
 - Nhân viên kho (nvkho): người thực hiện kiểm tra đơn hàng đã được đến nơi để tạo thông tin lưu kho.
 - Nhân viên kế toán (nvketoan): người thực hiện tạo và quản lý quá trình thanh toán hoá đơn của đơn hàng.
+- Admin: người duy nhất được truy cập và quản trị hệ thống, cơ sở dữ liệu admin
 
 Trang web gồm các màn hình chính:
 
@@ -33,14 +34,14 @@ Trang web gồm các màn hình chính:
 
 THÔNG TIN ĐĂNG NHẬP:
 
-- Tên đăng nhập
-  - nvkhac (role: nhân viên khác)
-  - nvkhac2 (role: nhân viên khác)
-  - nvthumua1 (role: nhân viên thu mua)
-  - nvthumua2 (role: nhân viên thu mua)
-  - qlthumua (role: quản lí thu mua)
-  - nvkho (role: nhân viên kho)
-  - nvketoan (role: nhân viên kế toán)
+- nvkhac1 - nhanvien123(role: nhân viên khác)
+- nvkhac2 - nhanvien123(role: nhân viên khác)
+- nvthumua1 - nhanvien123(role: nhân viên thu mua)
+- nvthumua2 - nhanvien123(role: nhân viên thu mua)
+- qlthumua - quanli123 (role: quản lí thu mua)
+- nvkho - nhanvien123(role: nhân viên kho)
+- nvketoan - nhanvien123 (role: nhân viên kế toán)
+- admin - admin (role: admin)
 
 # MÔI TRƯỜNG THỰC THI
 
@@ -115,8 +116,9 @@ Vào trình duyệt và mở localhost ở port :8000 là đã có thể thao t�
 
 Đã hoàn thành các yêu cầu  gồm:
 
-1. Lập các danh sách: yêu cầu mua hàng, đơn hàng, hàng hoá, nhà cung cấp, hợp đồng.
-2. Thêm yêu cầu, đơn hàng, nhà cung cấp, hợp đồng, phê duyệt.
+1. Lập các danh sách: yêu cầu mua hàng, đơn hàng, hàng hoá, nhà cung cấp, hợp đồng, thanh toán.
+2. Thêm yêu cầu, đơn hàng, nhà cung cấp, hợp đồng, thanh toán.
+3. Phê duyệt đơn hàng, hợp đồng, cập nhật trạng thái đơn hàng, hợp đồng.
 
 [py-image]: https://img.shields.io/badge/Python-%3E3.9%2C%20%3C3.10-yellow
 [py-url]: https://www.python.org/downloads/release/python-396/

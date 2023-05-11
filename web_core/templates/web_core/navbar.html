@@ -67,7 +67,7 @@
             <!-- <a class="nav-item nav-link my-nav-item {% if url_name == 'home' %}my-nav-active{% endif %}"
                 href="{% url 'home' %}">Trang chủ</a> -->
             {% load index %}
-            {% if request.user|first_group_name != 'quanly' %}
+            {% if request.user|first_group_name != 'quanly' and request.user|first_group_name != 'ketoan' %}
                 <a class="nav-item nav-link my-nav-item {% if 'canhan' in url_name %}my-nav-active{% endif %} nav-canhan"
                 href="{% url 'canhan_dspr' %}">Cá nhân</a>
             {% endif %}

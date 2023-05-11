@@ -2,17 +2,23 @@
 {$ load static %}
 {% block content %}
 
-
 <style>
-    .btn.form-btn {
-        display: flex;
-        justify-content: center;
+    #id_id {
+        border: 0;
+    }
+
+    .errorlist {
+        font-weight: bold;
+        color: red;
+        list-style-type: none;
     }
 
     input[type=submit] {
         font-weight: bold;
-        border-radius: 6px;
+        background-color: #399;
         border-width: 0px;
+        border-radius: 6px;
+        color: white;
         padding: 10px 14px;
         margin: auto;
         margin-top: 5px;
@@ -25,28 +31,34 @@
         border-radius: 6px;
         border-width: 1px;
         color: black;
-        padding: 8px 16px;
+        padding: 10px 14px;
         margin: auto;
         right: 0;
     }
+
+    .form-btn {
+        padding-top: 1%;
+        display: flex;
+        justify-content: center;
+    }
 </style>
-<div class="d-flex justify-content-center h-100" style="margin-top:50px;">
+<div class="d-flex justify-content-center h-100" style="margin-top:20px;">
     <div class="user_card">
         <div class="d-flex justify-content-center">
+            <h3 id="form-title" style="text-align: center;">TẠO THÔNG TIN THANH TOÁN</h3>
         </div>
         <div class="d-flex justify-content-center form_container">
             <div class="card card-body">
-                <p>Bạn có chắc muốn xoá phiếu khám {{phieukham}} ?</p>
-                <form action="{% url 'quanli_xoa_phieukham' phieukham.id %}" method="post">
+                <form action="" method="post">
                     {% csrf_token %}
-                    <div class="btn form-btn">
-                        <input class="btn btn-sm btn-danger" type="submit" value="Xác nhận">
-                        <a class="btn back-btn" href="{% url 'quanli_dspk' %}"> Trở lại </a>
+                    {{form.as_p}}
+                    <div class="form-btn">
+                        <input type="submit" value="Thêm">
+                        <a class='btn back-btn' href="{% url 'canhan_dspo' %}">Trở lại</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}

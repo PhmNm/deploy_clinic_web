@@ -83,25 +83,36 @@
         list-style-type: none;
     }
 </style>
-<h2 class="table-title" style>DANH SÁCH ĐƠN HÀNG</h2>
+<h2 class="table-title" style>DANH SÁCH THANH TOÁN</h2>
+{% load index %}
+{% if request.user|first_group_name == 'thumua' %}
+<div class="row sub">
+    <div class="col">
+        <div class="btn-text-right">
+            
+            <a class='btn add-btn' href="{% url 'quanli_them_tt'%}">Tạo yêu cầu thanh toán</a>
+        </div>
+    </div>
+</div>
+{% endif %}
 <div class="card card-body">
     <table class='table table-sm'>
         <tr class="table-head">
             <th class="small-content">Mã PR</th>
             <th class="small-content">Mã PO</th>
-            <th class="mid-content">Hàng hoá</th>
-            <th class="mid-content">Nhân viên thu mua</th>
-            <th class="mid-content">Trạng thái</th>
-            <th class="mid-content">Ngày đặt hàng</th>
+            <th class="large-content">Tên công ty</th>
+            <th class="mid-content">Nhân viên phụ trách</th>
+            <th class="mid-content">Trạng thái thanh toán</th>
+            <th class="mid-content">Ngày cập nhật</th>
         </tr>
-        {% for po in dspo %}
+        {% for tt in dstt %}
         <tr>
-            <td class="small-content">{{po.ma_PR.ma_PR}}</td>
-            <td class="small-content">{{po.ma_PO}}</td>
-            <td class="mid-content">{{po.ma_hang_hoa.ten_hang_hoa}}</td>
-            <td class="mid-content">{{po.ma_nhan_vien_tao.ho_ten}}</td>
-            <td class="mid-content"><a href="{% url 'quanli_xem_po' po.ma_PO %}">{{po.trang_thai}}</a></td>
-            <td class="mid-content">{{po.ngay_tao|date:"d/m/Y"}}</td>
+            <td class="small-content">{{tt.ma_PO.ma_PR.ma_PR}}</td>
+            <td class="small-content">{{tt.ma_PO.ma_PO}}</td>
+            <td class="large-content">{{tt.ma_PO.ma_ncc.ten_doanh_nghiep}}</td>
+            <td class="mid-content">{{tt.ma_nhan_vien_tao.ho_ten}}</td>
+            <td class="mid-content"><a href="{% url 'quanli_xem_tt' tt.ma_TT %}">{{tt.trang_thai}}</a></td>
+            <td class="mid-content">{{tt.ngay_cap_nhat|date:"d/m/Y"}}</td>
         </tr>
         {% endfor %}
     </table>

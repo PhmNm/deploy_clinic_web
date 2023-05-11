@@ -105,17 +105,12 @@ def dshh(request):
 
 @login_required(login_url='login')
 def dspr(request):
+    groups = request.user.groups.all()
+    if groups:
+        if groups[0].name == 'ketoan':
+            return redirect('/dspo')
     dspr = PR.objects.all().order_by('-ngay_tao')
     update_pr_status()
-    # for pr in dspr:
-    #     pr_hhs = PR_HH.objects.filter(ma_PR = pr.ma_PR)
-    #     if any(pr_hh.trang_thai == 'Đang xem xét' for pr_hh in pr_hhs):
-    #         pr.trang_thai = 'Đang xem xét'
-    #     elif any(pr_hh.trang_thai == 'Đang thực hiện' for pr_hh in pr_hhs):
-    #         pr.trang_thai = 'Đang thực hiện'
-    #     else:
-    #         pr.trang_thai = 'Đã hoàn thành'
-    #     pr.save()
 
     context = {'dspr':dspr}
     return render(request, 'web_core/dspr.html', context)
@@ -285,7 +280,7 @@ def add_po(request, ma_PR, ma_HH):
         form = PO_form(nhanvien.ma_NV,ma_PR,ma_HH,request.POST)
         if form.is_valid():
             form.save()
-            return redirect(f'/canhan/xem_pr/{ma_PR}')
+            return redirect(f'/ca_nhan/xem_pr/{ma_PR}')
     context = {'form':form, 'pr_hh':pr_hh}
     return render(request,'web_core/add_po.html', context)
 
@@ -325,7 +320,17 @@ def edit_po(request, ma_PO):
 @login_required(login_url='login')
 def update_po_status(request, ma_PO):
     po = PO.objects.get(ma_PO=ma_PO)
-    status_form = modelform_factory(PO, fields=['trang_thai'])
+    status_form = modelform_factory(
+        PO,
+        fields=['ma_PO','ma_PR','trang_thai'],
+        widgets={
+            'ma_PO': TextInput(
+                attrs={'readonly': True}
+            ),
+            'ma_PR': TextInput(
+                attrs={'readonly': True}
+            ),
+        })
     form = status_form(instance=po)
     if request.method == 'POST':
         form = status_form(request.POST, instance=po)
@@ -357,19 +362,17 @@ def duyet_po(request, ma_PO):
 @login_required(login_url='login')
 def dsncc(request):
     dsncc = NCC.objects.all().order_by('-ngay_cap_nhat')
-    # hopdong = HOPDONG.objects.filter(ma_NCC = )
     context = {'dsncc':dsncc}
 
     return render(request, 'web_core/dsncc.html', context)
 
-@allowed_users(['thumua', 'quanly'])
+@allowed_users(['thumua'])
 @login_required(login_url='login')
 def dsncc_canhan(request):
     
     nhanvien = NHANVIEN.objects.get(user=request.user)
 
     dsncc = NCC.objects.filter(ma_nhan_vien_tao=nhanvien.ma_NV).order_by('-ngay_cap_nhat')
-    # hopdong = HOPDONG.objects.filter(ma_NCC = )
     context = {'dsncc':dsncc}
 
     return render(request, 'web_core/dsncc_canhan.html', context)
@@ -384,7 +387,7 @@ def view_ncc(request, ma_NCC):
     context = {'ncc':ncc, 'hopdong':hopdong}
     return render(request,'web_core/view_ncc.html', context)
 
-@allowed_users(['thumua', 'quanly'])
+@allowed_users(['thumua'])
 @login_required(login_url='login')
 def view_ncc_canhan(request, ma_NCC):
     if ma_NCC is None:
@@ -394,7 +397,7 @@ def view_ncc_canhan(request, ma_NCC):
     context = {'ncc':ncc, 'hopdong':hopdong}
     return render(request,'web_core/view_ncc_canhan.html', context)
 
-@allowed_users(['thumua', 'quanly'])
+@allowed_users(['thumua'])
 @login_required(login_url='login')
 def add_ncc(request):
     user = request.user.username
@@ -411,7 +414,7 @@ def add_ncc(request):
     context = {'form':form}
     return render(request,'web_core/add_ncc.html', context)
 
-@allowed_users(['thumua', 'quanly'])
+@allowed_users(['thumua'])
 @login_required(login_url='login')
 def edit_ncc(request, ma_NCC):
     user = request.user.username
@@ -431,7 +434,7 @@ def edit_ncc(request, ma_NCC):
     return render(request,'web_core/edit_ncc.html', context)
 
 ### HOPDONG
-@allowed_users(['thumua', 'quanly'])
+@allowed_users(['thumua', 'quanly','ketoan'])
 @login_required(login_url='login')
 def dshd(request):
     dshd = HOPDONG.objects.all().order_by('-ngay_cap_nhat')
@@ -442,7 +445,6 @@ def dshd(request):
 @allowed_users(['thumua', 'quanly'])
 @login_required(login_url='login')
 def dshd_canhan(request):
-    
     nhanvien = NHANVIEN.objects.get(user=request.user)
 
     dshd = HOPDONG.objects.filter(ma_nhan_vien_tao=nhanvien.ma_NV).order_by('-ngay_cap_nhat')
@@ -450,7 +452,7 @@ def dshd_canhan(request):
 
     return render(request, 'web_core/dshd_canhan.html', context)
 
-@allowed_users(['thumua', 'quanly'])
+@allowed_users(['thumua', 'quanly','ketoan'])
 @login_required(login_url='login')
 def view_hd(request, ma_HD):
     if ma_HD is None:
@@ -467,9 +469,9 @@ def view_hd_canhan(request, ma_HD):
     hd = HOPDONG.objects.get(ma_HD=ma_HD)
     context = {'hd':hd}
     return render(request,'web_core/view_hopdong_canhan.html', context)
-@allowed_users(['thumua', 'quanly'])
-@login_required(login_url='login')
 
+@allowed_users(['thumua'])
+@login_required(login_url='login')
 def add_hd(request):
     user = request.user.username
     if user == 'admin':
@@ -520,6 +522,83 @@ def duyet_hd(request, ma_HD):
         HD.ngay_cap_nhat = datetime.now()
         HD.save()
     return redirect(f'/xem_hd/{ma_HD}')
+
+@allowed_users(['thumua', 'ketoan', 'quanly'])
+@login_required(login_url='login')
+def dstt(request):
+    dstt = THANHTOAN.objects.all().order_by('-ngay_cap_nhat')
+    context = {'dstt':dstt}
+
+    return render(request, 'web_core/dstt.html', context)
+
+@allowed_users(['thumua'])
+@login_required(login_url='login')
+def dstt_canhan(request):
+    nhanvien = NHANVIEN.objects.get(user=request.user)
+
+    dstt = THANHTOAN.objects.filter(ma_nhan_vien_tao = nhanvien.ma_NV).order_by('-ngay_cap_nhat')
+    context = {'dstt':dstt}
+
+    return render(request, 'web_core/dstt.html', context)
+
+@allowed_users(['thumua'])
+@login_required(login_url='login')
+def add_tt(request):
+    nhanvien = NHANVIEN.objects.get(user=request.user)
+
+    form = THANHTOAN_form(nhanvien.ma_NV)
+    if request.method == 'POST':
+        form = THANHTOAN_form(nhanvien.ma_NV, request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/dstt')
+    context = {'form':form}
+    return render(request,'web_core/add_tt.html', context)
+
+@allowed_users(['thumua', 'ketoan', 'quanly'])
+@login_required(login_url='login')
+def view_tt(request, ma_TT):
+    tt = THANHTOAN.objects.get(ma_TT=ma_TT)
+    context = {'tt':tt}
+
+    return render(request, 'web_core/view_tt.html', context)
+
+# @allowed_users(['ketoan'])
+# @login_required(login_url='login')
+# def edit_tt(request, ma_TT):
+#     user = request.user.username
+
+#     nhanvien = NHANVIEN.objects.get(user=request.user)
+#     tt = THANHTOAN.objects.get(ma_TT=ma_TT)
+#     form = THANHTOAN_form(nhanvien.ma_NV, instance=tt)
+#     if request.method == 'POST':
+#         form = THANHTOAN_form(nhanvien.ma_NV, request.POST, instance=tt)
+#         if form.is_valid():
+#             tt.ngay_cap_nhat = datetime.now()
+#             form.save()
+#             return redirect(f'/xem_hd/{ma_TT}')
+#     context = {'form':form, 'ma_HD':ma_TT}
+#     return render(request,'web_core/edit_hd.html', context)
+
+@allowed_users(['ketoan'])
+@login_required(login_url='login')
+def update_tt_status(request, ma_TT):
+    nhanvien = NHANVIEN.objects.get(user=request.user)
+    tt = THANHTOAN.objects.get(ma_TT=ma_TT)
+    status_form = modelform_factory(
+        THANHTOAN,
+        fields=['so_tien','trang_thai']
+    )
+    form = status_form(instance=tt)
+    if request.method == 'POST':
+        form = status_form(request.POST, instance=tt)
+        if form.is_valid():
+            tt.ngay_cap_nhat = datetime.now()
+            tt.ma_nhan_vien_tt = nhanvien
+            form.save()
+            return redirect(f'/xem_tt/{ma_TT}')
+    context = {'form':form, 'ma_TT':ma_TT, 'tt':tt}
+    return render(request,'web_core/update_tt.html', context)
 # # @admin_only
 # def edit_benhnhan(request, id):
 #     benhnhan = BENHNHAN.objects.get(id=id)

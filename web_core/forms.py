@@ -75,7 +75,11 @@ class PO_form(ModelForm):
             ),
             'ma_hang_hoa': TextInput(
                 attrs={'readonly': True}
-            )
+            ),
+            'ngay_du_kien_nhan': DateInput(
+            attrs={'type': 'date'},
+            format="%Y-%m-%d"
+            ),
         }
     def __init__(self, ma_NV, ma_PR, ma_HH, *args, **kwargs):
         super(PO_form,self).__init__(*args, **kwargs)
@@ -95,7 +99,11 @@ class PO_form_2(ModelForm):
         widgets = {
             'ma_nhan_vien_tao': TextInput(
                 attrs={'readonly': True}
-            )
+            ),
+            'ngay_du_kien_nhan': DateInput(
+            attrs={'type': 'date'},
+            format="%Y-%m-%d"
+            ),
         }
 
     def __init__(self, ma_NV, *args, **kwargs):
@@ -150,7 +158,34 @@ class HOPDONG_form(ModelForm):
         super(HOPDONG_form,self).__init__(*args, **kwargs)
         self.fields['ma_nhan_vien_tao'].initial = ma_NV
         self.fields["ma_HD"].widget.attrs["readonly"] = True
+
+class THANHTOAN_form(ModelForm):
+    class Meta:
+        model = THANHTOAN
+        fields = '__all__'
+        exclude = ['ngay_tao','ngay_cap_nhat','ma_nhan_vien_tt','so_tien']
+        widgets = {
+            'ma_nhan_vien_tao': TextInput(
+                attrs={'readonly': True}
+            ),
+        }
         
+    
+    def __init__(self, ma_NV, *args, **kwargs):
+        super(THANHTOAN_form,self).__init__(*args, **kwargs)
+        self.fields["ma_nhan_vien_tao"].initial = ma_NV
+        self.fields["ma_TT"].widget.attrs["readonly"] = True
+
+# class THANHTOAN_update_form(ModelForm):
+#     class Meta:
+#         model = THANHTOAN
+#         fields = ['so_tien','trang_thai']
+    
+#     def __init__(self, ma_NV, *args, **kwargs):
+#         super(THANHTOAN_update_form,self).__init__(*args, **kwargs)
+#         self.fields["ma_nhan_vien_tt"].initial = ma_NV
+#         self.fields["ma_TT"].widget.attrs["readonly"] = True
+
 # class benhnhan_form(ModelForm):
 #     ngay_sinh = DateField(
 #         label='Ngày sinh',
@@ -175,31 +210,3 @@ class HOPDONG_form(ModelForm):
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(*args, **kwargs)
 #         self.fields["id"].widget.attrs["readonly"] = True
-
-# class phieukham_form(ModelForm):
-#     class Meta:
-#         model = PHIEUKHAM
-#         fields = '__all__'
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields["id"].widget.attrs["readonly"] = True
-
-# class sudungthuoc_form(ModelForm):
-#     class Meta:
-#         model = SUDUNGTHUOC
-#         fields = '__all__'
-
-# class ThayDoiGiaTriForm(ModelForm):
-#     class Meta:
-#         model = THAMSO
-#         fields = ['now_value']
-
-# class DanhMucForm(ModelForm):
-#     class Meta:
-#         model = DANHMUC
-#         fields = ['ten']
-
-# class ThuocForm(ModelForm):
-#     class Meta:
-#         model = DANHMUC
-#         fields = ['ten', 'gia_tri']
