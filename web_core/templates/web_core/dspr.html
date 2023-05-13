@@ -84,6 +84,8 @@
     }
 </style>
 <h2 class="table-title" style>DANH SÁCH YÊU CẦU MUA HÀNG</h2>
+{% load index %}
+{% if request.user|first_group_name == 'khac' %}
 <div class="row sub">
     <div class="col">
         <div class="btn-text-right">
@@ -91,7 +93,7 @@
         </div>
     </div>
 </div>
-
+{% endif %}
 <div class="card card-body">
     <table class='table table-sm'>
         <tr class="table-head">

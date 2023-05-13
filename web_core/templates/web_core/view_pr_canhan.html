@@ -117,10 +117,12 @@
                 <a  href="{% url 'canhan_sua_pr' pr.ma_PR line.ma_hang_hoa.ma_HH %}">
                     {{line.trang_thai}}
                 </a>
-                {% else %}
+                {% elif ma_PO %}
                 <a  href="{% url 'canhan_xem_po' ma_PO %}">
                     {{line.trang_thai}}
                 </a>
+                {% else %}
+                {{line.trang_thai}}
                 {% endif %}
             </td>
             {% else %}

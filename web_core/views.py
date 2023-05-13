@@ -44,11 +44,10 @@ def update_pr_status():
             po = PO.objects.filter(ma_PR=pr_hh.ma_PR, ma_hang_hoa=pr_hh.ma_hang_hoa)
             if not pr.ma_nhan_vien_phu_trach:
                 pr_hh.trang_thai = 'Chờ phân công'
+            elif po and (po[0].trang_thai == 'Đã nhận hàng' or po[0].trang_thai =='Đã hoàn thành'):
+                pr_hh.trang_thai = 'Đã hoàn thành'
             else:
-                if not po:
-                    pr_hh.trang_thai = 'Đang thực hiện'
-                elif po[0].trang_thai == 'Đã nhận hàng' or po[0].trang_thai =='Đã hoàn thành':
-                    pr_hh.trang_thai = 'Đã hoàn thành'
+                pr_hh.trang_thai = 'Đang thực hiện'
                 
             pr_hh.save()
 
@@ -129,6 +128,7 @@ def dspr_canhan(request):
     return render(request, 'web_core/dspr_canhan.html', context)
 
 @non_admin_only
+@allowed_users(['khac'])
 @login_required(login_url='login')
 def add_pr(request):
     pr_formset= inlineformset_factory(

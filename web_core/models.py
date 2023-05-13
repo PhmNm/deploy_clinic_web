@@ -124,16 +124,11 @@ class PR(models.Model):
         alphabet="0123456789",
         primary_key=True
     )
-    # ma_hang_hoa = models.ForeignKey(HANGHOA, verbose_name = 'Mã hàng hoá', on_delete=models.SET_NULL, null=True)
     ma_nhan_vien_tao = models.ForeignKey(NHANVIEN, on_delete = models.CASCADE, verbose_name = 'Mã nhân viên tạo', related_name = 'nv_tao_PR', blank = True, null = True)
     ma_nhan_vien_phu_trach = models.ForeignKey(NHANVIEN, on_delete = models.SET_NULL, verbose_name = 'Mã nhân viên phụ trách',  related_name = 'nv_phutrach_PR', blank = True, null = True)
     ngay_tao = models.DateTimeField('Ngày tạo', default = datetime.now)
     ngay_cap_nhat = models.DateField('Ngày cập nhật', default = datetime.now)
-    # ngay_can_hang = models.DateField('Ngày cần hàng', editable = True, blank = True, null = True)
     ten_PR = models.CharField('Tên PR', max_length = 300)
-    # trang_thai = models.CharField('Trạng thái PR', max_length = 100, choices=danh_muc_trang_thai, null=True)
-    # so_luong = models.IntegerField('Số lượng', validators = [MinValueValidator(0)])
-    # yeu_cau = models.CharField('Yêu cầu', max_length = 300, blank = True, null = True)
     trang_thai = models.CharField('Trạng thái PR', max_length = 100, choices=danh_muc_trang_thai, default='Chờ phân công', null=True)
 
     def __str__(self):
