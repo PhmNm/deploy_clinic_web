@@ -13,14 +13,10 @@ from .decorators import non_admin_only, allowed_users
 
 #utils
 from datetime import datetime
-# from django.db.models import Count, Sum, F
 
 #forms import
 from .forms import *
 from django.forms import inlineformset_factory, modelform_factory
-
-#filters import
-# from .filters import dskb_filter, baocao_filter, LichSuKhamFilter
 
 # Create your views here.
 
