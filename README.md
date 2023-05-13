@@ -1,8 +1,8 @@
 # GIỚI THIỆU PROJECT
 
-Dựa trên UI từ [clinic project][clinic-pj-url], project này xây dựng website quản lý quy trình xử lí yêu cầu mua hàng trong một công ty sản xuất./
+Dựa trên UI từ [clinic project][clinic-pj-url], project này xây dựng website quản lý quy trình xử lí yêu cầu mua hàng trong một công ty sản xuất.
 
-Trong đó thực hiện chuỗi quy trình gồm: yêu cầu - tiếp nhận - tạo đơn hàng - lưu trữ hợp đồng - thanh toán & lưu trữ hoá đơn.\
+Trong đó thực hiện chuỗi quy trình gồm: yêu cầu - tiếp nhận - tạo đơn hàng - lưu trữ hợp đồng - thanh toán & lưu trữ hoá đơn.
 
 Project xây dựng theo yêu cầu hệ thống thông tin của một đồ án tốt nghiệp Đại học Bách Khoa TPHCM, khoa Quản lý công nghiệp.
 
