@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', lambda request: redirect('dspr', permanent=False), name='home'),
+    path('', lambda request: redirect('dspr/', permanent=False), name='home'),
     # path('', views.dskb, name='home'),
 
     path('login/', views.loginPage, name='login'),
