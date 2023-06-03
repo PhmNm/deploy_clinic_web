@@ -11,6 +11,8 @@ class NHANVIEN(models.Model):
         ('Thu mua', 'Thu mua'),
         ('Kho', 'Kho'),
         ('Kế toán', 'Kế toán'),
+        ('R&D', 'R&D'),
+        ('Production', 'Production'),
         ('Khác', 'Khác')
     )
     danh_muc_chuc_vu = (
